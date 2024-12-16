@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages (Zero Install)
 
 on:
   push:
@@ -14,16 +14,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2. Node.js 설치
+      # 2. Node.js 설정
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18  # 사용할 Node.js 버전
-          cache: 'yarn'
+          cache: 'yarn'  # Yarn Zero Install 환경에서 캐시 활성화
 
-      # 3. 의존성 설치
-      - name: Install dependencies
-        run: yarn install
+      # 3. Yarn Zero Install 실행
+      - name: Install dependencies (Zero Install)
+        run: yarn install --immutable
 
       # 4. 빌드 실행
       - name: Build project
