@@ -8,6 +8,7 @@ import { NumberOptions, SevenSegmentConsonant } from '../types/font-value';
 
 type SevenSegmentProps = {
   value: NumberOptions | SevenSegmentConsonant;
+  size?: number; // 8 ~ 100
   thickness?: number;
   color?: string;
   colorOff?: string;
@@ -16,15 +17,37 @@ type SevenSegmentProps = {
 
 const SevenSegment: React.FC<SevenSegmentProps> = ({
   value,
-  thickness = 10,
+  thickness: _thickness = 10,
+  size = 40,
   color = '#f00',
   colorOff = 'rgba(0, 0, 0, 0)',
   isColorOff = false,
 }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
 
-  const width = thickness * 10;
+  const width = useMemo(() => size, [size]);
   const height = useMemo(() => 2 * width, [width]);
+
+  /**
+   * 4의 배수로 두께를 조정합니다.
+   * MROUND(_thickness, 4)
+   */
+  const thickness = useMemo(() => {
+    if (size > 28) {
+      return _thickness;
+    }
+    if (20 < size && size <= 28) {
+      return (Math.floor(_thickness / 4) + 1) * 2;
+    }
+    if (12 < size && size <= 20) {
+      return Math.max((Math.floor(_thickness / 4) + 1) * 2, 2);
+    }
+    if (8 < size && size <= 12) {
+      return Math.max((Math.floor(_thickness / 16) + 1) * 4, 2);
+    }
+
+    return 1.6;
+  }, [_thickness, size]);
 
   useEffect(() => {
     if (!svgRef.current) {
@@ -122,6 +145,7 @@ const SevenSegment: React.FC<SevenSegmentProps> = ({
         return;
       }
 
+      console.log(i, segment);
       svg
         .append('rect')
         .attr('x', segment.x)

@@ -8,9 +8,11 @@ import './App.css';
 
 function App() {
   const [value, setValue] = useState(0);
-  const [text, setText] = useState<SevenSegmentConsonant | ''>('');
+  const [text, setText] = useState<SevenSegmentConsonant | undefined>(
+    undefined
+  );
 
-  const [width, setWidth] = useState(4);
+  const [size, setSize] = useState(8);
 
   const handleNext = () => setValue((prev) => (prev + 1) % 10);
   const handlePrev = () => setValue((prev) => (prev - 1 + 10) % 10);
@@ -27,27 +29,44 @@ function App() {
           }}
         >
           <label>
-            <span>{`size(4~100, step: 4): ${width}`}</span>
+            <span>{`size(8~100, step: 4): ${size}`}</span>
             <input
               id="size"
               type="range"
-              value={width}
-              min={4}
+              value={size}
+              min={8}
               max={100}
               step={4}
               aria-label="size"
-              onChange={(e) => setWidth(+e.target.value)}
+              onChange={(e) => setSize(+e.target.value)}
             />
           </label>
           <div>
-            <input
-              type="text"
+            <select
               value={text}
-              onChange={(e) =>
-                setText(e.target.value as SevenSegmentConsonant | '')
-              }
-            />
-            <button onClick={() => setText('')}>초기화</button>
+              onChange={(e) => {
+                if (e.target.value === '초기화') {
+                  setText(undefined);
+                  return;
+                }
+                setText(e.target.value as SevenSegmentConsonant);
+              }}
+              style={{
+                padding: '0.5rem',
+                fontSize: '1rem',
+                borderRadius: '0.5rem',
+                border: '1px solid #333',
+                width: '100%',
+              }}
+            >
+              {['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅋ', 'ㅌ', '초기화'].map(
+                (v) => (
+                  <option key={v} value={v}>
+                    {v}
+                  </option>
+                )
+              )}
+            </select>
           </div>
         </div>
       </div>
@@ -73,7 +92,7 @@ function App() {
             }}
           >
             <SevenSegment
-              thickness={width / 2}
+              size={size}
               value={text || (value as NumberOptions)}
               color="rgba(33, 33, 33, 1)"
             />
@@ -92,7 +111,7 @@ function App() {
             }}
           >
             <SevenSegment
-              thickness={width / 2}
+              size={size}
               value={text || (value as NumberOptions)}
               color="rgba(33, 33, 33, 1)"
               colorOff="rgba(255, 33, 21, 0.5)"
