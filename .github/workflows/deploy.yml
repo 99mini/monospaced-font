@@ -30,11 +30,14 @@ jobs:
       - name: Build project
         run: |
           yarn build
-          
+
       # 6. GitHub Pages로 배포
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.ref == 'refs/heads/main' }}
         with:
-          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN  }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist  # Vite 빌드 출력 디렉토리
+          full_commit_message: ${{ github.event.head_commit.message }}
+
 
