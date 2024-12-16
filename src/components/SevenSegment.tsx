@@ -8,20 +8,23 @@ import { NumberOptions, SevenSegmentConsonant } from '../types/font-value';
 
 type SevenSegmentProps = {
   value: NumberOptions | SevenSegmentConsonant;
-  width?: number;
   thickness?: number;
   color?: string;
+  colorOff?: string;
+  isColorOff?: boolean;
 };
 
 const SevenSegment: React.FC<SevenSegmentProps> = ({
   value,
-  width = 100,
   thickness = 10,
   color = '#f00',
+  colorOff = 'rgba(0, 0, 0, 0)',
+  isColorOff = false,
 }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
 
-  const height = useMemo(() => Math.min(2 * width, 200), [width]);
+  const width = thickness * 10;
+  const height = useMemo(() => 2 * width, [width]);
 
   useEffect(() => {
     if (!svgRef.current) {
@@ -29,9 +32,6 @@ const SevenSegment: React.FC<SevenSegmentProps> = ({
     }
 
     const svg = d3.select(svgRef.current);
-
-    const colorOn = color; // 세그먼트가 켜진 상태
-    const colorOff = 'rgba(0, 0, 0, 0)'; // 세그먼트가 꺼진 상태: 투명
 
     const widthLength = width - 2 * thickness;
 
@@ -118,6 +118,10 @@ const SevenSegment: React.FC<SevenSegmentProps> = ({
 
     // Render each segment
     segments.forEach((segment, i) => {
+      if (!isColorOff && !segmentMap[value]?.[i]) {
+        return;
+      }
+
       svg
         .append('rect')
         .attr('x', segment.x)
@@ -126,9 +130,12 @@ const SevenSegment: React.FC<SevenSegmentProps> = ({
         .attr('height', segment.height)
         .attr('rx', 0)
         .attr('ry', 0)
-        .style('fill', segmentMap[value]?.[i] ? colorOn : colorOff);
+        .style(
+          'fill',
+          isColorOff && !segmentMap[value]?.[i] ? colorOff : color
+        );
     });
-  }, [value, width, color, thickness, height]);
+  }, [value, width, color, thickness, height, isColorOff, colorOff]);
 
   return <svg ref={svgRef} width={width} height={height}></svg>;
 };

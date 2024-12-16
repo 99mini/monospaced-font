@@ -10,7 +10,7 @@ function App() {
   const [value, setValue] = useState(0);
   const [text, setText] = useState<SevenSegmentConsonant | ''>('');
 
-  const [width, setWidth] = useState(100);
+  const [width, setWidth] = useState(4);
 
   const handleNext = () => setValue((prev) => (prev + 1) % 10);
   const handlePrev = () => setValue((prev) => (prev - 1 + 10) % 10);
@@ -27,15 +27,15 @@ function App() {
           }}
         >
           <label>
-            <span>{`Width(10~100, step: 10): ${width}`}</span>
+            <span>{`size(4~100, step: 4): ${width}`}</span>
             <input
-              id="width"
+              id="size"
               type="range"
               value={width}
-              min={20}
+              min={4}
               max={100}
-              step={10}
-              aria-label="width"
+              step={4}
+              aria-label="size"
               onChange={(e) => setWidth(+e.target.value)}
             />
           </label>
@@ -55,20 +55,52 @@ function App() {
       <div>Value: {value}</div>
       <div
         style={{
-          height: 'fit-content',
-          width: 'fit-content',
-          margin: '0 auto',
           display: 'flex',
-          justifyContent: 'center',
+          justifyContent: 'space-around',
           alignItems: 'center',
-          border: '1px dashed rgba(0, 0, 0, 0.5)',
+          gap: '1rem',
         }}
       >
-        <SevenSegment
-          width={width}
-          value={text || (value as NumberOptions)}
-          color="rgba(255, 33, 21, 0.5)"
-        />
+        <div>
+          <div
+            style={{
+              height: 'fit-content',
+              width: 'fit-content',
+              margin: '0 auto',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <SevenSegment
+              thickness={width / 2}
+              value={text || (value as NumberOptions)}
+              color="rgba(33, 33, 33, 1)"
+            />
+          </div>
+          <div>{'transparency'}</div>
+        </div>
+        <div>
+          <div
+            style={{
+              height: 'fit-content',
+              width: 'fit-content',
+              margin: '0 auto',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <SevenSegment
+              thickness={width / 2}
+              value={text || (value as NumberOptions)}
+              color="rgba(33, 33, 33, 1)"
+              colorOff="rgba(255, 33, 21, 0.5)"
+              isColorOff
+            />
+          </div>
+          <div>{'with colorOff'}</div>
+        </div>
       </div>
       <div>
         <button onClick={handlePrev}>Previous</button>
