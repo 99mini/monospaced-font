@@ -21,7 +21,7 @@ const SevenSegment: React.FC<SevenSegmentProps> = ({
 }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
 
-  const height = useMemo(() => 2 * width, [width]);
+  const height = useMemo(() => Math.min(2 * width, 200), [width]);
 
   useEffect(() => {
     if (!svgRef.current) {
@@ -33,7 +33,7 @@ const SevenSegment: React.FC<SevenSegmentProps> = ({
     const colorOn = color; // 세그먼트가 켜진 상태
     const colorOff = 'rgba(0, 0, 0, 0)'; // 세그먼트가 꺼진 상태: 투명
 
-    const length = width - 2 * thickness;
+    const widthLength = width - 2 * thickness;
 
     const rightX = width - thickness;
     const leftX = 0;
@@ -41,38 +41,38 @@ const SevenSegment: React.FC<SevenSegmentProps> = ({
     const topY = thickness;
     const bottomY = height / 2 + thickness / 2;
 
-    const hieghtLength = length + thickness / 2;
+    const heightLength = widthLength + thickness / 2;
 
     // 세그먼트 좌표 정의
     const segments = [
       // [x, y, width, height, rotation]
-      { x: thickness, y: 0, width: length, height: thickness }, // edge-Top (A)
+      { x: thickness, y: 0, width: widthLength, height: thickness }, // edge-Top (A)
       {
         x: rightX,
         y: topY,
         width: thickness,
-        height: hieghtLength,
+        height: heightLength,
       }, // edge-Top-right (B)
       {
         x: rightX,
         y: bottomY,
         width: thickness,
-        height: hieghtLength,
+        height: heightLength,
       }, // edge-Bottom-right (C)
       {
         x: thickness,
         y: height - thickness,
-        width: length,
+        width: widthLength,
         height: thickness,
       }, // edge-Bottom (D)
-      { x: leftX, y: bottomY, width: thickness, height: hieghtLength },
+      { x: leftX, y: bottomY, width: thickness, height: heightLength },
       // edge-Bottom-left (E)
-      { x: leftX, y: topY, width: thickness, height: hieghtLength },
+      { x: leftX, y: topY, width: thickness, height: heightLength },
       // edge-Top-left (F)
       {
         x: thickness,
         y: height / 2 - thickness / 2,
-        width: length,
+        width: widthLength,
         height: thickness,
       }, // edge-Middle (G)
       {
