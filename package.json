@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check .",
-    "lint": "eslint",
+    "lint": "eslint .",
     "tsc": "tsc",
     "preview": "vite preview",
     "deploy": "gh-pages -d dist"
