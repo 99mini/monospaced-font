@@ -1,0 +1,39 @@
+name: Validate Code Quality
+
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 푸시될 때 실행
+  pull_request:  # PR 생성 또는 업데이트 시 실행
+
+jobs:
+  lint-prettier-tsc:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 저장소 체크아웃
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Corepack 활성화 및 Yarn 설정
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Use Yarn 4.5.3
+        run: corepack prepare yarn@4.5.3 --activate
+
+      # 3. Yarn Zero Install로 의존성 설치
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      # 4. Prettier 실행
+      - name: Run Prettier
+        run: yarn prettier:check
+
+      # 5. ESLint 실행
+      - name: Run ESLint
+        run: yarn lint
+
+      # 6. TypeScript 컴파일 체크
+      - name: Run TypeScript Compiler
+        run: yarn tsc --noEmit

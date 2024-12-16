@@ -9,3 +9,9 @@ node_modules/
 # 기타 파일
 yarn.lock
 .yarn/
+
+# github
+.github/
+
+# pnp
+.pnp.*

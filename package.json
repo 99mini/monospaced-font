@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "format": "prettier --write .",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "prettier": "prettier --write .",
+    "prettier:check": "prettier --check .",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
+    "tsc": "tsc",
     "preview": "vite preview",
     "deploy": "gh-pages -d dist"
   },
