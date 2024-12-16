@@ -1,0 +1,11 @@
+# 빌드 결과물
+dist/
+node_modules/
+
+# 환경 파일
+.env
+.env.*
+
+# 기타 파일
+yarn.lock
+.yarn/
