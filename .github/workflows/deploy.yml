@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages (Zero Install)
+name: Deploy to GitHub Pages (PnP)
 
 on:
   push:
@@ -14,22 +14,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2. Node.js 설정
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18  # 사용할 Node.js 버전
-          cache: 'yarn'  # Yarn Zero Install 환경에서 캐시 활성화
+      # 2. Corepack 활성화 (Yarn 관리 도구)
+      - name: Enable Corepack
+        run: corepack enable
 
-      # 3. Yarn Zero Install 실행
-      - name: Install dependencies (Zero Install)
+      # 3. 요구 Yarn 버전 설치 및 활성화
+      - name: Use Yarn 4.5.3
+        run: corepack prepare yarn@4.5.3 --activate
+
+      # 4. Yarn Zero Install (PnP 환경)
+      - name: Install dependencies (PnP)
         run: yarn install --immutable
 
-      # 4. 빌드 실행
+      # 5. Yarn PnP 환경에서 빌드 실행
       - name: Build project
-        run: yarn build
+        run: |
+          yarn build
 
-      # 5. GitHub Pages로 배포
+      # 6. GitHub Pages로 배포
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
