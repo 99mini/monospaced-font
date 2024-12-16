@@ -1,7 +1,7 @@
 {
   "name": "monospaced-font",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -18,7 +18,7 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.15.0",
+    "@eslint/js": "^9.17.0",
     "@types/gh-pages": "^6",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
