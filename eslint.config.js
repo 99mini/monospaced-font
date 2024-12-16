@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint';
 import prettier from 'eslint-plugin-prettier';
 
 export default tseslint.config(
-  { ignores: ['dist', '.yarn'] },
+  { ignores: ['dist', '.yarn', 'node_modules'] },
   {
     extends: [
       js.configs.recommended,
