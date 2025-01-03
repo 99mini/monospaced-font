@@ -8,7 +8,7 @@ import globals from 'globals';
 
 export default {
   files: ['**/*.{ts,tsx}'], // ESLint가 적용될 파일 패턴
-  ignores: ['dist', '.yarn/**', 'node_modules', '.pnp'], // 무시할 경로
+  ignores: ['dist', '.yarn/**/*', 'node_modules', '.pnp.*'], // 무시할 경로
   languageOptions: {
     ecmaVersion: 'latest', // 최신 ECMAScript 기능 사용
     sourceType: 'module', // ECMAScript 모듈
