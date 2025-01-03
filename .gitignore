@@ -30,7 +30,6 @@ dist/
 *.swo
 *~
 .idea/
-.vscode/
 *.code-workspace
 
 # MacOS and Linux specific files
